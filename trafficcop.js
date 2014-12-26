@@ -7,11 +7,11 @@ var TrafficCop = {
 
 
   /**
-   * start - Starts the route managment
-   *
-   * @param  {type} options description
-   * @return {type}         description
-   */
+  * start - Starts the route managment
+  *
+  * @param  {type} options description
+  * @return {type}         description
+  */
   start: function (options) {
     options = options || {};
 
@@ -33,10 +33,10 @@ var TrafficCop = {
 
 
   /**
-   * stop - stops routing and removes listeners
-   *
-   * @return {type}  description
-   */
+  * stop - stops routing and removes listeners
+  *
+  * @return {type}  description
+  */
   stop: function () {
     // Remove event listener
     window.removeEventListener('popstate', this.handlePop);
@@ -44,11 +44,11 @@ var TrafficCop = {
 
 
   /**
-   * handlePop - handles a popstate event
-   *
-   * @param  {type} e description
-   * @return {type}   description
-   */
+  * handlePop - handles a popstate event
+  *
+  * @param  {type} e description
+  * @return {type}   description
+  */
   handlePop: function (e) {
     // Set options
     var options = {
@@ -66,12 +66,12 @@ var TrafficCop = {
 
 
   /**
-   * checkRoute - checks the current route
-   *
-   * @param  {type} e description
-   * @return {type}   description
-   */
-   checkRoute: function (options, state) {
+  * checkRoute - checks the current route
+  *
+  * @param  {type} e description
+  * @return {type}   description
+  */
+  checkRoute: function (options, state) {
     options = options || {};
     state = state || {};
 
@@ -83,14 +83,16 @@ var TrafficCop = {
       return false;
     }
 
-    // Set trail
-    // Browser controls
-    if (!options.navigated && this.trail[this.trail.length - 2] === current) {
-      // New route is previous route. User pressed Back button.
-      this.trail.pop();
-    } else {
-      // User pressed Forward button or navigated
-      this.trail.push(current);
+    // Set trail if not rerun
+    if (!options.rerun) {
+      // Browser controls
+      if (!options.navigated && this.trail[this.trail.length - 2] === current) {
+        // New route is previous route. User pressed Back button.
+        this.trail.pop();
+      } else {
+        // User pressed Forward button or navigated
+        this.trail.push(current);
+      }
     }
 
     // Load the route
@@ -99,10 +101,10 @@ var TrafficCop = {
 
 
   /**
-   * loadRoute - Loads the current route
-   *
-   * @return {type}  description
-   */
+  * loadRoute - Loads the current route
+  *
+  * @return {type}  description
+  */
   loadRoute: function (current, options, state) {
     this.currentRoute = current;
 
@@ -120,12 +122,12 @@ var TrafficCop = {
 
 
   /**
-   * execHandler - executes the route handler
-   *
-   * @param  {type} routeObj    description
-   * @param  {type} routeString description
-   * @return {type}             description
-   */
+  * execHandler - executes the route handler
+  *
+  * @param  {type} routeObj    description
+  * @param  {type} routeString description
+  * @return {type}             description
+  */
   execHandler: function (routeObj, current, options, state) {
     // Get the args
     var params = this.getParams(routeObj, current);
@@ -147,12 +149,12 @@ var TrafficCop = {
 
 
   /**
-   * getParams - extracts the parameters from the route
-   *
-   * @param  {type} routeObj    description
-   * @param  {type} routeString description
-   * @return {type}             description
-   */
+  * getParams - extracts the parameters from the route
+  *
+  * @param  {type} routeObj    description
+  * @param  {type} routeString description
+  * @return {type}             description
+  */
   getParams: function (routeObj, routeString) {
     // Get args
     var args = routeObj.route.exec(routeString).slice(1);
@@ -168,11 +170,11 @@ var TrafficCop = {
   },
 
   /**
-   * clearSlashes - Clears preceding and trailing slashes from a string
-   *
-   * @param  {type} path description
-   * @return {type}      description
-   */
+  * clearSlashes - Clears preceding and trailing slashes from a string
+  *
+  * @param  {type} path description
+  * @return {type}      description
+  */
   clearSlashes: function(path) {
     if (typeof path === 'undefined') {
       return null;
@@ -183,10 +185,10 @@ var TrafficCop = {
 
 
   /**
-   * getCurrentRoute - gets the current route
-   *
-   * @return {type}  description
-   */
+  * getCurrentRoute - gets the current route
+  *
+  * @return {type}  description
+  */
   getCurrentRoute: function () {
     // Get location path
     var route = this.clearSlashes(decodeURI(location.pathname));
@@ -197,11 +199,11 @@ var TrafficCop = {
 
 
   /**
-   * navigate - navigates to the speicified route
-   *
-   * @param  {type} route description
-   * @return {type}       description
-   */
+  * navigate - navigates to the speicified route
+  *
+  * @param  {type} route description
+  * @return {type}       description
+  */
   navigate: function (route, options, state) {
     options = options || {};
     state = state || {};
@@ -224,13 +226,13 @@ var TrafficCop = {
 
 
   /**
-   * add - adds a route
-   *
-   * @param  {type} route    description
-   * @param  {type} callback description
-   * @param  {type} moduleId   description
-   * @return {type}          description
-   */
+  * add - adds a route
+  *
+  * @param  {type} route    description
+  * @param  {type} callback description
+  * @param  {type} moduleId   description
+  * @return {type}          description
+  */
   add: function (route, callback, moduleId) {
     // Clear slashes
     route = this.clearSlashes(route);
@@ -254,12 +256,12 @@ var TrafficCop = {
 
 
   /**
-   * addModule - block adds a module
-   *
-   * @param  {type} moduleId    description
-   * @param  {type} routeObjs description
-   * @return {type}           description
-   */
+  * addModule - block adds a module
+  *
+  * @param  {type} moduleId    description
+  * @param  {type} routeObjs description
+  * @return {type}           description
+  */
   addModule: function (moduleId, routeObjs) {
     // Check module and routeObjs are defined
     if (typeof moduleId === 'undefined' ||
@@ -268,21 +270,21 @@ var TrafficCop = {
         return false;
       }
 
-    // Loop through each routeObj and add it
-    for (var i = 0, j = routeObjs.length; i<j; i++) {
-      var routeObj = routeObjs[i];
-      this.add(routeObj.route, routeObj.callback, moduleId);
-    }
-  },
+      // Loop through each routeObj and add it
+      for (var i = 0, j = routeObjs.length; i<j; i++) {
+        var routeObj = routeObjs[i];
+        this.add(routeObj.route, routeObj.callback, moduleId);
+      }
+    },
 
 
   /**
-   * remove - removes routes by matching route, module or both
-   *
-   * @param  {type} route  description
-   * @param  {type} moduleId description
-   * @return {type}        description
-   */
+  * remove - removes routes by matching route, module or both
+  *
+  * @param  {type} route  description
+  * @param  {type} moduleId description
+  * @return {type}        description
+  */
   remove: function (route, moduleId) {
 
     // Copy the unremoved routes into new array
@@ -335,23 +337,23 @@ var TrafficCop = {
         // doesn't match specified route exp and moduleId
         if (this.routes[i].moduleId !== moduleId &&
           !regexEqual(this.routes[i].route, routeRegExp)) {
-          remainingRoutes.push(this.routes[i]);
+            remainingRoutes.push(this.routes[i]);
+          }
         }
       }
-    }
 
-    // Set routes to remaining routes
-    this.routes = remainingRoutes;
-  },
+      // Set routes to remaining routes
+      this.routes = remainingRoutes;
+    },
 
 
   /**
-   * convertRouteToRegExp - converts a route string to a RegExp
-   * Borrowed from Backbone.js
-   *
-   * @param  {type} route description
-   * @return {type}       description
-   */
+  * convertRouteToRegExp - converts a route string to a RegExp
+  * Borrowed from Backbone.js
+  *
+  * @param  {type} route description
+  * @return {type}       description
+  */
   convertRouteToRegExp: function (route) {
     var optionalParam = /\((.*?)\)/g;
     var namedParam    = /(\(\?)?:\w+/g;
@@ -360,22 +362,22 @@ var TrafficCop = {
 
     // Replace tokens
     route = route.replace(escapeRegExp, '\\$&')
-                .replace(optionalParam, '(?:$1)?')
-                .replace(namedParam, function(match, optional) {
-                  return optional ? match : '([^/?]+)';
-                })
-                .replace(splatParam, '([^?]*?)');
+    .replace(optionalParam, '(?:$1)?')
+    .replace(namedParam, function(match, optional) {
+      return optional ? match : '([^/?]+)';
+    })
+    .replace(splatParam, '([^?]*?)');
 
     return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
   },
 
 
   /**
-   * getParamsFromRouteString - gets the parameter names
-   *
-   * @param  {type} route description
-   * @return {type}       description
-   */
+  * getParamsFromRouteString - gets the parameter names
+  *
+  * @param  {type} route description
+  * @return {type}       description
+  */
   getParamsFromRouteString: function (route) {
     var namedParam = /(\(\?)?:\w+/g;
 
